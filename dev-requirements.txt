@@ -1,0 +1,7 @@
+jupyterlab
+black
+mypy
+pylint
+pytest
+pytest-mock
+moto[all]

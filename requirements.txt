@@ -1,0 +1,7 @@
+kopf
+kubernetes
+boto3
+xmltodict==0.13.0
+boto3==1.24.45
+types-all
+black

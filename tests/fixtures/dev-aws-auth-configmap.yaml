@@ -1,0 +1,49 @@
+apiVersion: v1
+data:
+  mapAccounts: "123456789012"
+  mapRoles: |
+    - "groups":
+      - "system:bootstrappers"
+      - "system:nodes"
+      "rolearn": "arn:aws:iam::123456789012:role/blue-eks-node-group-20220628071025251200000002"
+      "username": "system:node:{{EC2PrivateDNSName}}"
+    - "groups":
+      - "system:bootstrappers"
+      - "system:nodes"
+      "rolearn": "arn:aws:iam::123456789012:role/green-eks-node-group-20220628071024753900000001"
+      "username": "system:node:{{EC2PrivateDNSName}}"
+  mapUsers: |
+    - "groups":
+      - "admin"
+      - "system:masters"
+      - "view"
+      "userarn": "arn:aws:iam::123456789012:user/eks-admin-1"
+      "username": "eks-admin-1"
+    - "groups":
+      - "admin"
+      - "system:masters"
+      - "view"
+      "userarn": "arn:aws:iam::123456789012:user/eks-admin-2"
+      "username": "eks-admin-2"
+    - "groups":
+      - "admin"
+      - "view"
+      "userarn": "arn:aws:iam::123456789012:user/user1"
+      "username": "user1"
+    - "groups":
+      - "admin"
+      - "view"
+      "userarn": "arn:aws:iam::123456789012:user/user2"
+      "username": "user2"
+    - "groups":
+      - "admin"
+      - "view"
+      "userarn": "arn:aws:iam::123456789012:user/user3"
+      "username": "user3"
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2022-06-28T07:27:11Z"
+  name: aws-auth
+  namespace: kube-system
+  resourceVersion: "12942004"
+  uid: 66cb6271-13a1-4c3b-9387-ac06aebf2e6d

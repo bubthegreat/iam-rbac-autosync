@@ -1,0 +1,49 @@
+
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: devops-iam-rbac-autosyncs
+  labels:
+    name: iam-rbac-autosyncs
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iam-rbac-autosync-operator
+  namespace: devops-iam-rbac-autosyncs
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      application: iam-rbac-autosync-operator
+  template:
+    metadata:
+      labels:
+        application: iam-rbac-autosync-operator
+    spec:
+      serviceAccountName: iam-rbac-autosync-account
+      containers:
+      - name: iam-rbac-autosync-worker
+        image: 123456789012.dkr.ecr.us-east-1.amazonaws.com/iam-rbac-autosync:0.0.12  # Uncomment for deployments that aren't local
+        imagePullPolicy: Always
+        resources:
+          limits:
+            # Since there's only ever one, and we would never want this guy to cause our clusters to scale out because of 
+            # bad behavior, we're going to set actual limits on this bad boy, instead of requests.
+            cpu: 250m
+            memory: 200Mi
+        # image: iam-rbac-autosync:0.0.12
+        env:
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: iam-rbac-operator-aws-secrets
+                key: AWS_ACCESS_KEY_ID
+          - name: AWS_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: iam-rbac-operator-aws-secrets
+                key: AWS_ACCESS_KEY

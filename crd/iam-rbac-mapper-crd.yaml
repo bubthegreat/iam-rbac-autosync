@@ -1,0 +1,48 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: iam-rbac-autosyncs.iamrbacautoupdater.com
+spec:
+  group: iamrbacautoupdater.com
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                clusterAdminGroups:
+                  type: array
+                  items:
+                    type: string
+                eksAdminGroups:
+                  type: array
+                  items:
+                    type: string
+                viewGroups:
+                  type: array
+                  items:
+                    type: string
+                namespaceElevatedGroups:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      protectedNameSpace: 
+                        type: string
+                      elevatedGroups: 
+                        type: array
+                        items:
+                          type: string
+
+  scope: Cluster
+  names:
+    plural: iam-rbac-autosyncs
+    singular: iam-rbac-autosync
+    kind: IAMRBACMapper
+    shortNames:
+    - irms

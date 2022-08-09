@@ -1,0 +1,12 @@
+apiVersion: iamrbacautoupdater.com/v1
+kind: IAMRBACMapper
+metadata:
+  name: iam-rbac-autosync-dev
+spec:
+  clusterAdminGroups: # These groups have administrative rights to the cluster and can break things beyond repair without devops involvement
+    - eks-devops
+  eksAdminGroups: # These developers have the keys to the kingdom outside of cluster breaking features.
+    - eks-admins
+    - eks-developers
+  viewGroups: # These developers have access to view everything but secrets or sensitive items.
+    - eks-developers
